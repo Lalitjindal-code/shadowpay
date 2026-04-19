@@ -16,30 +16,39 @@ In a world of total blockchain transparency, ShadowPay provides a "Venmo-style" 
 
 ---
 
+### 🚀 Status: Phase 3 Complete (Privacy Layer)
+ShadowPay has completed its core privacy integration. 
+- [x] **Phase 1**: Identity Integration (Privy + World ID)
+- [x] **Phase 2**: On-chain Program (Anchor + SPL)
+- [x] **Phase 3**: Privacy Layer (Arcium MPC) — **Current Version**
+- [ ] **Phase 4**: Advanced UX (MoonPay + Mobile support)
+
+---
+
 ## 🏗️ Project Structure
 
 This is a monorepo organized for clarity and scalability:
 
-- **[`web/`](./web)**: Next.js 15 frontend application (Frontend-as-a-Service architecture).
-- **[`anchor/`](./anchor)**: Anchor (Rust) smart contracts and test suites.
-- **[`docs/`](./docs)**: Technical deep-dives, master context, and database schemas.
+- **[`web/`](./web)**: Next.js 16 frontend with Arcium browser-side cryptography.
+- **[`anchor/`](./anchor)**: Anchor (Rust) smart contracts with encrypted field support.
+- **[`docs/`](./docs)**: Technical deep-dives and implementation bibles.
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Privacy & Computation
-- **[Arcium](https://arcium.com/)**: Encrypted Computation Network for confidential state.
+- **[Arcium](https://arcium.com/)**: Confidential state via MPC (Multi-Party Computation).
 - **[Solana](https://solana.com/)**: High-speed L1 for near-instant settlement.
 
 ### Identity & UX
-- **[World ID](https://worldcoin.org/world-id)**: Proof of Personhood to prevent bots.
-- **[Privy](https://www.privy.io/)**: Embedded wallets and social onboarding.
+- **[World ID](https://worldcoin.org/world-id)**: Proof of Personhood.
+- **[Privy](https://www.privy.io/)**: Secure embedded wallets.
 - **[MoonPay](https://www.moonpay.com/)**: Native fiat-to-crypto onramp.
 
 ### Infrastructure
-- **[Helius](https://helius.dev/)**: RPC and Webhook infrastructure for real-time events.
-- **Supabase**: Off-chain metadata (usernames, avatars, contacts).
+- **[Helius](https://helius.dev/)**: Powering real-time transactional webhooks.
+- **MongoDB Atlas**: Off-chain profile and metadata management.
 
 ---
 

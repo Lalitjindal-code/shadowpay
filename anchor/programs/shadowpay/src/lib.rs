@@ -7,7 +7,7 @@ pub mod state;
 
 use instructions::*;
 
-declare_id!("SHADOW_PROGRAM_ID_PLACEHOLDER");
+declare_id!("DkW2oCnxaPfNyAmuvbiac42CggbxhuEVxE8fitqWqCU5");
 
 #[program]
 pub mod shadowpay {
