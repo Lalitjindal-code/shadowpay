@@ -8,6 +8,8 @@ import { usePrivacyStore } from "../../../store/usePrivacyStore";
 import { motion } from "framer-motion";
 import { Search, Zap, Shield, Users } from "lucide-react";
 
+import WorldIDButton from "../../../components/identity/WorldIDButton";
+
 export default function HomePage() {
   const { user } = usePrivy();
   const { isUnlocked } = usePrivacyStore();
@@ -22,9 +24,12 @@ export default function HomePage() {
             <h1 className="text-2xl font-bold text-white">Shadow Dashboard</h1>
             <p className="text-sm text-white/30">Privately managing your digital wealth.</p>
           </div>
-          <div className="flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2">
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Mainnet-Beta</span>
+          <div className="flex items-center gap-3">
+            <WorldIDButton />
+            <div className="flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2">
+              <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/50">Mainnet-Beta</span>
+            </div>
           </div>
         </div>
 
