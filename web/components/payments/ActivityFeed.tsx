@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { usePayments, PaymentRecord } from "../../hooks/usePayments";
 import { usePrivacyStore } from "../../store/usePrivacyStore";
-import { decryptAmount, decryptMemo } from "../../lib/arcium/decrypt";
+
 import { formatDistanceToNow } from "date-fns";
 
 export function ActivityFeed({ walletAddress }: { walletAddress: string }) {
@@ -68,8 +68,31 @@ function PaymentItem({ payment }: { payment: PaymentRecord }) {
 
     setIsDecrypting(true);
     try {
-      const amount = await decryptAmount(payment.encryptedAmount, arciumPrivateKey);
-      const memo = await decryptMemo(payment.encryptedMemo, arciumPrivateKey);
+      const amountRes = await fetch("/api/arcium/decrypt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ciphertext: Buffer.from(payment.encryptedAmount).toString("base64"),
+          privateKey: Buffer.from(arciumPrivateKey).toString("base64"),
+          type: "amount",
+        }),
+      });
+      const amountData = await amountRes.json();
+      if (!amountRes.ok) throw new Error(amountData.error);
+      const amount = amountData.result;
+
+      const memoRes = await fetch("/api/arcium/decrypt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ciphertext: Buffer.from(payment.encryptedMemo).toString("base64"),
+          privateKey: Buffer.from(arciumPrivateKey).toString("base64"),
+          type: "memo",
+        }),
+      });
+      const memoData = await memoRes.json();
+      if (!memoRes.ok) throw new Error(memoData.error);
+      const memo = memoData.result;
       setDecryptedData({ amount, memo });
       setIsRevealed(true);
     } catch (e) {

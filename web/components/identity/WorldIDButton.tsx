@@ -28,6 +28,19 @@ export default function WorldIDButton() {
     );
   }
 
+  const worldAppId = process.env.NEXT_PUBLIC_WORLD_APP_ID;
+  if (!worldAppId || worldAppId === 'FILL_THIS') {
+    return (
+      <div className="flex items-center gap-2 px-4 py-2 
+                      rounded-xl bg-yellow-500/10 border 
+                      border-yellow-500/20 text-yellow-400 
+                      text-sm">
+        <span>⚠</span>
+        <span>World ID not configured</span>
+      </div>
+    );
+  }
+
   return (
     <>
       <Button 

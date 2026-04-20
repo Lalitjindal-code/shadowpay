@@ -3,7 +3,6 @@ import { PublicKey, SystemProgram } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID, getAssociatedTokenAddressSync } from "@solana/spl-token";
 import { useAnchorProgram } from "./useAnchorProgram";
 import { getUserProfilePDA, getPaymentRecordPDA } from "../lib/solana/pdas";
-import { encryptAmount, encryptMemo } from "../lib/arcium/encrypt";
 import { USDC_MINT } from "../lib/constants";
 import { toast } from "react-hot-toast";
 
@@ -36,8 +35,20 @@ export function useSendPayment() {
       const paymentIndex = senderProfile.payment_count;
 
       // 3. Encrypt amount and memo for the recipient
-      const encryptedAmount = await encryptAmount(amount, recipientArciumPubkey);
-      const encryptedMemo = await encryptMemo(memo, recipientArciumPubkey);
+      const res = await fetch("/api/arcium/encrypt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          memo,
+          recipientArciumPubkey: Buffer.from(recipientArciumPubkey).toString("base64"),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      const encryptedAmount = new Uint8Array(Buffer.from(data.encryptedAmount, "base64"));
+      const encryptedMemo = new Uint8Array(Buffer.from(data.encryptedMemo, "base64"));
 
       // 4. Calculate Token Accounts
       const senderTokenAccount = getAssociatedTokenAddressSync(USDC_MINT, sender);

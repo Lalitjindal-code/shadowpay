@@ -1,19 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "utfs.io",
-        port: "",
-        pathname: "/f/**",
-      },
-    ],
-  },
   webpack: (config, { isServer }) => {
-    config.externals.push("pino-pretty", "lokijs", "encoding");
-    
+    config.resolve.alias = {
+      ...config.resolve.alias,
+    };
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -22,23 +13,27 @@ const nextConfig: NextConfig = {
         os: false,
         net: false,
         tls: false,
+        dns: false,
+        child_process: false,
+        crypto: false,
+        stream: false,
+        buffer: false,
+        process: false,
+        zlib: false,
+        http: false,
+        https: false,
+        assert: false,
+        url: false,
+        util: false,
       };
     }
-    
     return config;
   },
-  experimental: {
-    turbopack: {
-      resolveAlias: {
-        fs: "node-empty-polyfill",
-        path: "node-empty-polyfill",
-        os: "node-empty-polyfill",
-        net: "node-empty-polyfill",
-        tls: "node-empty-polyfill",
-        crypto: "node-empty-polyfill",
-      },
-    },
-  },
+  serverExternalPackages: [
+    "mongoose",
+    "@arcium-hq/client",
+    "@arcium-hq/arcium-js",
+  ],
 };
 
 export default nextConfig;
